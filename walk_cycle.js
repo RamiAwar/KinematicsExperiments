@@ -1,10 +1,5 @@
 
-
-var s1;
-var s2;
-var s3, s4, s5;
 var angle = 0;
-
 
 function setup(){
 
@@ -52,9 +47,10 @@ function draw(){
 	// s4.angle = sin(angle*0.2)*1.5;
 
 	fk_system.segments[0].angle = angle*0.06;
-	fk_system.segments[1].angle = angle*0.05;
-	fk_system.segments[2].angle = angle*0.06;
-	fk_system.segments[3].angle = angle*0.04;
+	fk_system.segments[1].angle = angle*0.055;
+	
+	// fk_system.segments[2].angle = angle*0.06;
+	// fk_system.segments[3].angle = angle*0.04;
 
 	// s2.follow(cos(angle*0.3), sin(angle*0.2));
 	// s3.follow(cos(angle*0.1), sin(angle*0.1));
@@ -77,7 +73,7 @@ function draw(){
 	// s2.show();
 	// s3.show();
 	// s4.show();
-	fk_system.render();
+	// fk_system.render();
 
 	angle += 0.1;
 
