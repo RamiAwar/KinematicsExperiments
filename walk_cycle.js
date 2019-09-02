@@ -46,8 +46,8 @@ function draw(){
 	// s3.angle = sin(angle*0.4)*1.2;
 	// s4.angle = sin(angle*0.2)*1.5;
 
-	fk_system.segments[0].angle = angle*0.06;
-	fk_system.segments[1].angle = angle*0.055;
+	fk_system.segments[0].angle = angle*0.03;
+	fk_system.segments[1].angle = angle*0.0399;
 	
 	// fk_system.segments[2].angle = angle*0.06;
 	// fk_system.segments[3].angle = angle*0.04;
@@ -75,7 +75,7 @@ function draw(){
 	// s4.show();
 	// fk_system.render();
 
-	angle += 0.1;
+	angle += 0.8;
 
 
 }

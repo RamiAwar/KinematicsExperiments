@@ -79,7 +79,7 @@ function draw(){
 	// s4.show();
 	fk_system.render();
 
-	angle += 0.1;
+	angle += 1;
 
 
 }

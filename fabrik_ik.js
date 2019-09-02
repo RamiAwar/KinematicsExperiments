@@ -8,10 +8,10 @@ function setup(){
 
 
 	ik_system = new IKSystem(width/2, height/2);
-	ik_system.addSegment(100, 0);
-	ik_system.addSegment(100, 0);
-	// ik_system.addSegment(50, 0);
-	// ik_system.addSegment(20, 0);
+	ik_system.addSegment(70, 0);
+	ik_system.addSegment(70, 0);
+	ik_system.addSegment(70, 0);
+	
 
 	background("#A44DE8");
 	pg.background("#A44DE8");

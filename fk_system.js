@@ -119,7 +119,8 @@ class IKSystem {
 		this.base = createVector(x,y);
 		this.segments = [];
 		this.max_length = 0;
-		this.max_iterations = 100;
+		this.max_iterations = 10;
+		this.delta_threshold = 
 	}
 
 	addSegment(length, angle){
@@ -143,12 +144,14 @@ class IKSystem {
 		var target = createVector(x, y);
 		var diff = target.copy().sub(this.base);
 
+		// First case if target is unreachable
+		if(diff.mag() >= this.max_length){
 
-		if(diff.mag() > this.max_length){
 			var direction = createVector(x, y).sub(this.base);
 			for(var i = 0; i < this.segments.length; i++){
-				this.segments[i].update(false);
+
 				this.segments[i].angle = direction.heading();
+				this.segments[i].update(false);
 			}
 
 		}else{
@@ -156,32 +159,45 @@ class IKSystem {
 			for(var iteration = 0; iteration < this.max_iterations; iteration++){
 
 				// back
-				for(var i = this.segments.length - 1; i > 0; i--){
+				for(var i = this.segments.length - 1; i >= 0; i--){
+					
 					if( i == this.segments.length - 1){
 						this.segments[i].b = target;
 					}else{
-						this.segments[i].b = this.segments[i+1].b.copy().add(this.segments[i].b.copy().sub(this.segments[i+1].b.copy())).normalize().mult(this.segments[i].length);
+						this.segments[i].b = this.segments[i+1].a;
+					}
+
+					if(i != 0){
+						var direction = this.segments[i].b.copy().sub(this.segments[i-1].b).normalize();
+						this.segments[i].a = this.segments[i].b.copy().sub(direction.mult(this.segments[i].length));
+					}else{
+						var direction = this.segments[i].b.copy().sub(this.base).normalize();
+						this.segments[i].a = this.segments[i].b.copy().sub(direction.mult(this.segments[i].length));
 					}
 				}
 
 				// forward
-				for(var i = 1; i < this.segments.length; i++){
-					this.segments[i].b = this.segments[i-1].b.copy().add(this.segments[i].b.copy().sub(this.segments[i-1].b.copy())).normalize().mult(this.segments[i-1].length);
+				for(var i = 0; i < this.segments.length; i++){
+					if(i == 0){
+						this.segments[0].a = this.base;
+					}else{
+						this.segments[i].a = this.segments[i-1].b;
+					}
+
+					var direction = this.segments[i].b.copy().sub(this.segments[i].a).normalize();
+					this.segments[i].b = this.segments[i].a.copy().add(direction.mult(this.segments[i].length));
+
 				}
 
 				// check if close enough
-				console.log(this.segments[this.segments.length - 1].b);
-				if( this.segments[this.segments.length - 1].b.copy().sub(target).mag() < 1){
+				if( this.segments[this.segments.length - 1].b.copy().sub(target).mag() < this.delta_threshold){
 					break;
 				}
 
-				console.log(iteration);
 
 			}
 
-			// for(var i = 0; i < this.segments.length; i++){
-			// 	this.segments[i].update(false);
-			// }
+			
 			
 			
 		}
